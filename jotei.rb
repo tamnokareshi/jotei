@@ -1,12 +1,28 @@
 # -*- coding: utf-8 -*-
-miquire :mui, 'skin'
-miquire :addon, 'search'
-Module.new do
+# miquire :mui, 'skin'
+# miquire :addon, 'search'
 
-  def self.boot
-    plugin = Plugin::create(:jotei_search)
-    main = Gtk::TimeLine.new()
-    service = nil
+Plugin.create(:jotei) do
+  filter_command do |menu|
+    menu[:jotei] = {
+      :slug => :jotei,
+      :name => '女帝かわいいよ女帝',
+      :condition => lambda{|m| m.message.repliable?},
+      :exec => lambda{|m| jotei},
+      :visible => true,
+      :role => :message
+    }
+    [menu]
   end
 
+  def say
+    w = ['女帝かわいいよ女帝',
+         '女帝こわいよ女帝',
+         '女帝さんかわいい']
+    w[rand(w.size)]
+  end
+
+  def jotei
+    Post.primary_service.update(:message => say)
+  end
 end

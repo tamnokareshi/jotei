@@ -3,6 +3,10 @@
 # miquire :addon, 'search'
 
 Plugin.create(:jotei) do
+  onboot do
+    Plugin.call(:show_profile, Post.primary_service, :idname => 'yamashitam')
+  end
+
   filter_command do |menu|
     menu[:jotei] = {
       :slug => :jotei,
